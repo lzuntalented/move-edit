@@ -1,0 +1,23 @@
+html, body {  
+  margin: 0 0;
+  padding: 0 0;
+}
+#root {
+  .track-container {
+    overflow-x: auto;
+    padding-top: 50px;
+    position: fixed;
+    bottom: 0;
+    left: 50px;
+    right: 0;
+    height: 200px;
+    border: 1px solid #f3f5f6;
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
+    .track-layer {
+      margin: 8px 0;
+      height: 50px;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+.area-player {
+  height: calc(100vh - 200px - 100px);
+  display: flex;
+  justify-content: center;
+}
+.player-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}

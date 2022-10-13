@@ -1,0 +1,21 @@
+.fragment {
+  &-drag {
+    background-color: #f3f5f6;
+    border-radius: 5px;
+    border: 1px solid #999;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+
+    &.active {
+      border-color: lightblue;
+    }
+  }
+  &-preview {
+    height: 100%;
+    display: inline-block;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+}

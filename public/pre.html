@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            min-height: 800px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+    </div>
+    <script>
+        
+// DataURL转Blob对象
+function dataURLToBlob(dataurl) {
+  const arr = dataurl.split(',');
+  const mime = arr[0].match(/:(.*?);/)[1];
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new Blob([u8arr], { type: mime });
+}
+
+        document.body.addEventListener('click', () => {
+
+            const url = 'http://127.0.0.1:5500/public/d.mp4'
+            const width = 600;
+            const height = 600;
+            const canvas = document.createElement('canvas');
+            document.body.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+            canvas.width = width;
+            canvas.height = height;
+            const video = document.createElement('video');
+            video.addEventListener('loadedmetadata', () => {
+                video.currentTime = 5;
+                ctx.drawImage(video, 0, 0, width, height);
+                const imgData = canvas.toDataURL('image/jpeg');
+                const localImage = URL.createObjectURL(dataURLToBlob(imgData));
+                console.log(localImage)
+
+                const img = document.createElement('img');
+                img.src = localImage;
+                document.body.appendChild(img);
+
+            });
+
+            video.src = url;
+            video.play();
+        })
+
+    </script>
+</body>
+</html>  

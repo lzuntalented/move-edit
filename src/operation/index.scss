@@ -1,0 +1,11 @@
+.operation {
+  display: flex;
+  div {
+    background-color: burlywood;
+    display: inline-block;
+    margin: 12px;
+    color: #fff;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+}
