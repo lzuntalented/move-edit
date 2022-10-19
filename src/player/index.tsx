@@ -21,6 +21,7 @@ import './index.scss';
 
 interface PlayerProps {
   layers: Layer[];
+  refresh: Symbol
 
   // private currentTime = 0;
 

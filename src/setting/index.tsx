@@ -1,7 +1,8 @@
-import { Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import React, { useContext, useEffect } from 'react';
 import Context from '../context';
 import { ItemType } from '../player/interface';
+import store from '../store';
 import Item from '../store/item';
 import { isNumber } from '../utils';
 
@@ -71,6 +72,13 @@ function Setting(props: Props) {
   };
   return (
     <div>
+      <Button onClick={() => {
+        store.addTransaction(data.id);
+        refresh();
+      }}
+      >
+        添加转场
+      </Button>
       <Form form={formRef} onValuesChange={onValuesChange}>
         {
         list.map((it) => (

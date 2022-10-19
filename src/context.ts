@@ -3,7 +3,10 @@ import { Updater } from 'use-immer';
 import { Store } from './store';
 
 interface IContext {
-  state: Symbol
+  state: {
+    refreshFlag: Symbol
+    activeWidgetId: number
+  }
   refresh(): void
 }
 

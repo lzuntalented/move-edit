@@ -1,4 +1,5 @@
 import { createId } from '../utils';
+import { Transition } from './transition';
 
 export default class Item {
   type: number = 1;
@@ -19,6 +20,8 @@ export default class Item {
 
   readonly id: string = '';
 
+  transition?: Transition;
+
   constructor(duration: number, title: string) {
     this.start = 0;
     this.id = createId();
@@ -29,6 +32,10 @@ export default class Item {
 
   setStart(start: number = 0) {
     this.start = start;
+  }
+
+  setTransition(t: Transition) {
+    this.transition = t;
   }
 
   copy() {

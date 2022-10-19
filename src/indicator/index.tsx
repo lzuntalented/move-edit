@@ -39,6 +39,7 @@ function Indicator() {
           const { x: elx } = (e.target as HTMLCanvasElement).getBoundingClientRect();
           const time = (x - elx) / store.timerScale;
           store.setCurrentTime(time * 1000);
+          store.pause();
           refresh();
         }}
         ref={canvasRef}

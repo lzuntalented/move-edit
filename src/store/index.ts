@@ -3,6 +3,7 @@ import { isNumber, isString } from '../utils';
 import Item from './item';
 import Layer from './layer';
 import { Timer } from './timer';
+import { Transition, TransitionZoomIn } from './transition';
 
 export class Store {
   layers = [] as Layer[];
@@ -180,6 +181,33 @@ export class Store {
 
       sourceItems.splice(source.index, 1);
     }
+  }
+
+  /**
+   * 添加专场
+   */
+  addTransaction(id: string) {
+    const item = this.getActiveItem() as Item;
+    const layer = this.getActiveLayer();
+
+    const t = new TransitionZoomIn();
+    item.setTransition(t);
+    // const len = t.duration
+    let itemIdx = -1;
+    for (let i = 0; i < layer.items.length; i += 1) {
+      const it = layer.items[i];
+      if (it.id === item.id) {
+        itemIdx = 0;
+      } else if (++itemIdx > -1) {
+        it.setStart(it.start - itemIdx * t.duration);
+      }
+    }
+
+    // item.addTransaction();
+  }
+
+  stop() {
+
   }
 }
 

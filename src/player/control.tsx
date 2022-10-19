@@ -1,6 +1,7 @@
 import React, {
   FunctionComponent, ReactComponentElement, useContext, useEffect, useState,
 } from 'react';
+import { fabric } from 'fabric';
 import Context from '../context';
 import Item from '../store/item';
 import { ItemType, PlayerControlProps, PlayStatus } from './interface';
@@ -9,6 +10,7 @@ import Image from './image';
 import Text from './text';
 import Music from './music';
 import store from '../store';
+import Animation from './animation';
 
 const itemRenderMap = {
   [ItemType.VIDEO]: Video,
@@ -24,7 +26,7 @@ export default function PlayControl(props: PlayerControlProps) {
   const { refresh } = useContext(Context);
 
   useEffect(() => {
-    const obj = list.filter((it) => currentTime >= it.start
+    const obj = list.filter((it) => currentTime > it.start
     && currentTime <= it.start + it.duration);
     setCurrentItem(obj);
     // console.log('updateList------------', obj);
@@ -53,12 +55,25 @@ export default function PlayControl(props: PlayerControlProps) {
   // }, [currentItem, playStatus]);
 
   if (currentItem.length === 0) return <div />;
-  return (
-    <>
-      {currentItem.map((it) => {
-        const Comp = itemRenderMap[it.type];
-        return <Comp {...props} {...it} />;
-      })}
-    </>
-  );
+  const chidlren = currentItem.map((it) => {
+    const Comp = itemRenderMap[it.type];
+    return <Comp {...props} {...it} />;
+  });
+
+  if (currentItem[0].transition
+     && currentTime >= (
+       currentItem[0].start + currentItem[0].duration - currentItem[0].transition.duration
+     )
+  ) {
+    console.log(currentTime, currentItem[0].transition.duration);
+    return (
+      <Animation
+        {...currentItem[0].transition || {}}
+        currentTime={currentTime - (currentItem[0].start + currentItem[0].duration - currentItem[0].transition.duration)}
+      >
+        {chidlren}
+      </Animation>
+    );
+  }
+  return chidlren;
 }

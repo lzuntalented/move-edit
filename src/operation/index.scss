@@ -1,11 +1,21 @@
 .operation {
-  display: flex;
-  div {
-    background-color: burlywood;
-    display: inline-block;
-    margin: 12px;
-    color: #fff;
-    padding: 4px 8px;
+  width: 70px;
+  .menu-item {
+    width: 100%;
+    height: 68px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #262e48;
+    position: relative;
     cursor: pointer;
+
+    &:hover {
+      color: #8e54e9
+    }
+  }
+  .menu-item-active {
+    background-color: #f3f5f6;
   }
 }
