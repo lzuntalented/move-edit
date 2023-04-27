@@ -1,0 +1,52 @@
+.indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  min-width: 100%;
+  &-point {
+    position: absolute;
+    width: 1px;
+    bottom: 0;
+    top: 0;
+    height: 200px;
+    background-color: red;
+  }
+
+  ul {
+    padding: 0 0;
+    li {
+      padding: 0 0;
+      width: 10px;
+      list-style: none;
+      float: left;
+      position: relative;
+      // border-left: 1px solid #333;
+      // border-bottom: 1px solid #333;
+      box-sizing: border-box;
+      position: relative;
+      padding-top: 8px;
+
+      &::before {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 5px;
+        width: 1px;
+        background-color: #dae0e6;
+        display: block;
+        content: '';
+      }
+      &::after {
+        position: absolute;
+        left: 0;
+        top: 5px;
+        height: 1px;
+        right: 0;
+        background-color: #dae0e6;
+        display: block;
+        content: '';
+      }
+    }
+  }
+}

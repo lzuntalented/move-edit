@@ -1,0 +1,29 @@
+html, body {  
+  margin: 0 0;
+  padding: 0 0;
+}
+#root {
+  .area-track {
+    position: fixed;
+    bottom: 0;
+    left: 70px;
+    right: 0;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  .track-container {
+    overflow-x: auto;
+    padding-top: 50px;
+    border: 1px solid #f3f5f6;
+    position: relative;
+    flex: 1;
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
+    .track-layer {
+      margin: 8px 0;
+      height: 50px;
+    }
+  }
+}
