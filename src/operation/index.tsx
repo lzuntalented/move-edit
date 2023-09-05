@@ -28,7 +28,7 @@ function Operation({ onWidgetClick, activeWidgetId }: Props) {
     onWidgetClick(1);
   };
   const onAddVideo = () => {
-    const url = 'http://127.0.0.1:9000/d.mp4';
+    const url = 'http://movie.lzuntalented.cn/asset/short.mp4';
     const layer = store.getActiveLayer();
     const item = new Item(8 * 1000, '视频');
     item.url = url;
@@ -51,7 +51,7 @@ function Operation({ onWidgetClick, activeWidgetId }: Props) {
     refresh();
   };
   const onAddMusic = () => {
-    const url = 'http://127.0.0.1:5500/public/o.m4a';
+    const url = 'http://movie.lzuntalented.cn/asset/o.m4a';
     const layer = store.addLayer();
     const item = new Item(100 * 1000, '音乐');
     item.url = url;
