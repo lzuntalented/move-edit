@@ -7,9 +7,14 @@ import Item from '../store/item';
 import './index.scss';
 
 const picList = [
-  'https://img1.xiudodo.com/import_699pic/pic/photo/40140/8700.jpg!w1000_wm?auth_key=1666159200-0-0-2691f0051879c82e203bc551d12e558e',
-  'https://img2.xiudodo.com/import_699pic/pic/photo/40140/8930.jpg!w1000_wm?auth_key=1666159200-0-0-a8ef9b51a5db4a60450d794e058a8c96',
-  'https://img1.xiudodo.com/import_699pic/pic/photo/40140/9520.jpg!w1000_wm?auth_key=1666159200-0-0-96a07b0c2acb169e11b35407ac9c653c',
+  'http://static.lzuntalented.cn/movie/1.jpg',
+  'http://static.lzuntalented.cn/movie/2.jpg',
+  'http://static.lzuntalented.cn/movie/3.jpg',
+];
+
+const videoList = [
+  'http://static.lzuntalented.cn/movie/1.mp4',
+  'http://static.lzuntalented.cn/movie/2.mp4',
 ];
 
 const textList = [
@@ -88,6 +93,18 @@ function Widget({ activeWidgetId }: Props) {
                 width="100%"
                 onClick={() => {
                   onAddPicture(it);
+                }}
+              />
+            </Col>
+          ))}
+          {activeWidgetId === 2
+          && videoList.map((it) => (
+            <Col key={it} span={12}>
+              <video
+                src={it}
+                width="100%"
+                onClick={() => {
+                  onAddVideo(it);
                 }}
               />
             </Col>
