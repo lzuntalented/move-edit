@@ -30,18 +30,61 @@ function Indicator() {
     }
   }, [total]);
 
+  const lastX = useRef({
+    x: 0,
+    moving: false,
+    curX: 0
+  })
+  const onMouseDown =  (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const x = e.clientX;
+    lastX.current = { x, moving: true, curX: x };
+   
+    const { x: elx } = (e.target as HTMLCanvasElement).getBoundingClientRect();
+    const time = (x - elx) / store.timerScale;
+    store.setCurrentTime(time * 1000);
+    store.pause();
+    refresh();
+  };
+
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (lastX.current.moving) {
+      const x = e.clientX || lastX.current.curX;
+      const time = (x - lastX.current.x) / store.timerScale;
+      lastX.current.x = x;
+      store.setCurrentTime(store.currentTime + time * 1000);
+      store.pause();
+      refresh();
+    }
+  };
+
+  const onMouseLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (lastX.current.moving) {
+      const x = e.clientX || lastX.current.curX;
+      const time = (x - lastX.current.x) / store.timerScale;
+      store.setCurrentTime(store.currentTime + time * 1000);
+      store.pause();
+      refresh();
+    }
+    lastX.current = {x:0,moving: false, curX: 0}
+  };
+
   return (
-    <div className="indicator" style={{ width: lines.length * 10 + 10 * 10 }}>
+    <div className="indicator" style={{ width: lines.length * 10 + 10 * 10 }}
+    onMouseDown={onMouseDown}
+    onMouseMove={onMouseMove}
+    onMouseLeave={onMouseLeave}
+    onMouseUp={onMouseLeave}
+    >
       <div className="indicator-point" style={{ left: store.currentTime / 10 }} />
       <canvas
-        onClick={(e) => {
-          const x = e.clientX;
-          const { x: elx } = (e.target as HTMLCanvasElement).getBoundingClientRect();
-          const time = (x - elx) / store.timerScale;
-          store.setCurrentTime(time * 1000);
-          store.pause();
-          refresh();
-        }}
+        // onClick={(e) => {
+        //   const x = e.clientX;
+        //   const { x: elx } = (e.target as HTMLCanvasElement).getBoundingClientRect();
+        //   const time = (x - elx) / store.timerScale;
+        //   store.setCurrentTime(time * 1000);
+        //   store.pause();
+        //   refresh();
+        // }}
         ref={canvasRef}
         width={lines.length * 10 + 10 * 10}
         height={30}
