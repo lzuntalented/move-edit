@@ -11,7 +11,7 @@ function Indicator() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     if (canvasRef.current) {
-      const ctx = canvasRef.current.getContext('2d') as CanvasRenderingContext2D;
+      const ctx = canvasRef.current.getContext('2d', 60) as CanvasRenderingContext2D;
       lines.forEach((line, i) => {
         const x = i * 10;
         const y = 0;
@@ -87,7 +87,7 @@ function Indicator() {
         // }}
         ref={canvasRef}
         width={lines.length * 10 + 10 * 10}
-        height={30}
+        height={60}
       />
     </div>
   );

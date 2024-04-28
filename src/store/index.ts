@@ -107,14 +107,16 @@ export class Store {
     const minDuration = 1000;
     if (item) {
       const { start, duration } = item;
+      if (this.currentTime < start)  return false;
       const beforeDuration = this.currentTime - start;
-      item.duration = beforeDuration;
 
       // 片段时长不得小于1s
       if (duration < minDuration
         || beforeDuration < minDuration
         || (duration - beforeDuration) < minDuration
       ) return false;
+
+      item.duration = beforeDuration;
 
       const nextItem = item.copy();
       nextItem.duration = duration - beforeDuration;
