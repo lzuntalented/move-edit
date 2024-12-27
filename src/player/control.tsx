@@ -26,7 +26,7 @@ export default function PlayControl(props: PlayerControlProps) {
   const { refresh } = useContext(Context);
 
   useEffect(() => {
-    const obj = list.filter((it) => currentTime > it.start
+    const obj = list.filter((it) => currentTime >= it.start
     && currentTime <= it.start + it.duration);
     setCurrentItem(obj);
     // console.log('updateList------------', obj);
@@ -57,7 +57,7 @@ export default function PlayControl(props: PlayerControlProps) {
   if (currentItem.length === 0) return <div />;
   const chidlren = currentItem.map((it) => {
     const Comp = itemRenderMap[it.type];
-    return <Comp {...props} {...it} />;
+    return <Comp {...props} {...it} key={it.id} />;
   });
 
   if (currentItem[0].transition
@@ -65,7 +65,7 @@ export default function PlayControl(props: PlayerControlProps) {
        currentItem[0].start + currentItem[0].duration - currentItem[0].transition.duration
      )
   ) {
-    console.log(currentTime, currentItem[0].transition.duration);
+    // console.log(currentTime, currentItem[0].transition.duration);
     return (
       <Animation
         {...currentItem[0].transition || {}}

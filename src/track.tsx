@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   DragDropContext, DragStart, Droppable, DroppableProvided, DropResult, ResponderProvided,
 } from 'react-beautiful-dnd';
@@ -15,7 +15,7 @@ function Track() {
     if (!result.destination) {
       return;
     }
-    console.log('drag endOfDay ', result);
+    // console.log('drag endOfDay ', result);
     // if (result.destination.index === result.source.index) {
     //   return;
     // }
@@ -51,6 +51,22 @@ function Track() {
     store.activeLayer = idx;
   };
 
+  useEffect(() => {
+    const onDelClick = (event: KeyboardEvent) => {
+      if (event.key === 'Delete' || event.key === 'Backspace') {
+        // 删除键监听 待处理
+        if (event.target && event.target?.querySelector('.fragment')) {
+          store.removeItem();
+          refresh();
+        }
+      }
+    };
+    window.addEventListener('keydown', onDelClick);
+    return () => {
+      window.removeEventListener('keydown', onDelClick);
+    };
+  }, []);
+
   return (
     <div className="area-track">
       <TrackOperate />
@@ -59,7 +75,7 @@ function Track() {
           <Indicator />
           {
         store.layers.map((it) => (
-          <div className="track-layer">
+          <div className="track-layer" key={it.id}>
             <Droppable key={it.id} droppableId={it.id} direction="horizontal">
               {(provided: DroppableProvided) => (
                 <div

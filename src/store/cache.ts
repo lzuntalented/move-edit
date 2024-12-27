@@ -1,0 +1,6 @@
+import { isDev } from '../common/env';
+
+export const defaultDemoValue = '[{"items":[{"type":0,"start":0,"duration":2933.333282470703,"title":"视频","url":"http://localhost:9000/1.mp4","content":"","playStart":0,"volume":1,"id":"oy6s4n"},{"type":1,"start":2933.333282470703,"duration":3000,"title":"图片","url":"http://localhost:9000/1.jpg","content":"","playStart":0,"volume":1,"id":"966egz"},{"type":0,"start":5933.333282470703,"duration":5066.666717529297,"title":"视频","url":"http://localhost:9000/1.mp4","content":"","playStart":2933.333282470703,"volume":1,"id":"sfgn04"}],"id":"daop8p","type":0},{"items":[{"type":3,"start":0,"duration":2973.333282470703,"title":"音乐","url":"http://localhost:9000/1.mp3","content":"","playStart":0,"volume":0,"id":"d0zgxj"},{"type":3,"start":2973.333282470703,"duration":3030,"title":"音乐","url":"http://localhost:9000/1.mp3","content":"","playStart":2973.333282470703,"volume":1,"id":"ais1q8"},{"type":3,"start":6003.333282470703,"duration":3996.666717529297,"title":"音乐","url":"http://localhost:9000/1.mp3","content":"","playStart":3030,"volume":0,"id":"wh0j8e"}],"id":"eq7z3d","type":0}]'
+  .replace(/localhost:9000/g, isDev ? 'localhost:9000' : 'static.lzuntalented.cn/movie');
+
+export default {};

@@ -17,6 +17,8 @@ import Track from './track';
 import './app.scss';
 import Setting from './setting';
 import Widget from './widget';
+import { defaultDemoValue } from './store/cache';
+import { isDev } from './common/env';
 
 const { Content, Footer, Header } = Layout;
 
@@ -26,10 +28,6 @@ export default function App() {
     activeWidgetId: 0,
   });
 
-  useEffect(() => {
-    store.addLayer();
-  }, []);
-
   const refresh = useCallback(
     () => {
       setDraft((d) => {
@@ -38,6 +36,15 @@ export default function App() {
     },
     [],
   );
+
+  useEffect(() => {
+    if (isDev) {
+      store.addLayer();
+    } else {
+      store.initValue(JSON.parse(defaultDemoValue) as Layer[]);
+    }
+    refresh();
+  }, []);
 
   const activeTtem = store.getActiveItem();
   return (

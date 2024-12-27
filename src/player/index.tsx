@@ -44,14 +44,14 @@ export default function Player(props: PlayerProps) {
     });
   }, []);
 
-  console.log('refresh active-----------');
+  // console.log('refresh active-----------');
 
   return (
     <div className="area-player">
       {/* <div>{store.currentTime}</div> */}
       {
         layers.map((item) => (
-          <div className="player-container">
+          <div className="player-container" key={item.id}>
             <PlayControl
               updateFlag={store.updateFlag}
               key={item.id}

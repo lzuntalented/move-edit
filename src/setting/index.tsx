@@ -28,6 +28,13 @@ function getConfig(type: number) {
     case ItemType.VIDEO: {
       result.push({ key: 'url', label: '视频地址' });
       result.push({ key: 'playStart', type: 1, label: '开始时间' });
+      result.push({ key: 'volume', type: 1, label: '音量' });
+      break;
+    }
+    case ItemType.MUSIC: {
+      result.push({ key: 'url', label: '音频地址' });
+      result.push({ key: 'playStart', type: 1, label: '开始时间' });
+      result.push({ key: 'volume', type: 1, label: '音量' });
       break;
     }
     case ItemType.TEXT: {

@@ -79,6 +79,9 @@ export class Store {
 
   update = (time: number) => {
     this.currentTime = time;
+    if (this.detectEnd()) {
+      this.stop();
+    }
   };
 
   pause() {
@@ -94,7 +97,7 @@ export class Store {
   }
 
   setCurrentTime(num: number) {
-    this.currentTime = num;
+    this.currentTime = num > 0 ? num : 0;
     this.timerHandler.resetCurrentTime(num);
     this.updateFlag = Symbol(1);
   }
@@ -107,7 +110,7 @@ export class Store {
     const minDuration = 1000;
     if (item) {
       const { start, duration } = item;
-      if (this.currentTime < start)  return false;
+      if (this.currentTime < start) return false;
       const beforeDuration = this.currentTime - start;
 
       // 片段时长不得小于1s
@@ -124,6 +127,8 @@ export class Store {
       layer.insertItem(nextItem, itemIdx + 1);
 
       if (item.type === ItemType.VIDEO) {
+        nextItem.playStart = item.duration;
+      } else if (item.type === ItemType.MUSIC) {
         nextItem.playStart = item.duration;
       }
       return true;
@@ -209,7 +214,59 @@ export class Store {
   }
 
   stop() {
+    this.playStatus = PlayStatus.PAUSE;
+    this.timerHandler.stop();
+  }
 
+  /** 清空 */
+  clear() {
+    this.layers = [];
+    this.stop();
+    this.currentTime = 0;
+    this.addLayer();
+  }
+
+  /** 移除当前选中元素 */
+  removeItem() {
+    const layer = this.getActiveLayer();
+    console.log(layer.id);
+    const itemIdx = layer.items.findIndex((it) => it.id === this.activeItemId);
+    if (itemIdx > -1) {
+      layer.items.splice(itemIdx, 1);
+      if (layer.items.length === 0) {
+        this.layers.splice(this.layers.indexOf(layer), 1);
+        this.activeLayer = this.layers.length - 1;
+      }
+    }
+  }
+
+  save() {
+    return JSON.stringify(this.layers);
+  }
+
+  initValue(val: Layer[]) {
+    this.clear();
+    this.layers = [];
+    val.forEach((item) => {
+      const newLayer = this.addLayer();
+      item.items.forEach((it) => {
+        const newItem = new Item(it.duration, it.title);
+        newItem.type = it.type;
+        newItem.start = it.start;
+        newItem.duration = it.duration;
+        newItem.url = it.url;
+        newItem.content = it.content;
+        newItem.playStart = it.playStart;
+        newItem.transition = it.transition;
+        newItem.volume = it.volume;
+        newLayer.addItem(newItem);
+      });
+    });
+  }
+
+  setActvieItemId(id: string) {
+    this.activeItemId = id;
+    this.activeLayer = this.layers.findIndex((l) => !!l.items.find((item) => item.id === id));
   }
 }
 

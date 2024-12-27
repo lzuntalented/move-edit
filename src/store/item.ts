@@ -17,6 +17,7 @@ export default class Item {
   playStart: number = 0;
 
   // playDuration: number = 0;
+  volume: number = 1;
 
   readonly id: string = '';
 

@@ -58,22 +58,40 @@ export function getImageFormVideo(url: string, width: number, height: number, sp
   canvas.width = width;
   canvas.height = height;
   const video = document.createElement('video');
+  video.crossOrigin = 'anonymous';
   // video.setAttribute('crossOrigin', 'anonymous');
   const ret = new Promise<string[]>((resolve, reject) => {
-    video.addEventListener('loadeddata', () => {
+    let i = 0;
+    const imgs = [] as string[];
+    video.addEventListener('canplay', () => {
+      if (i >= spaces.length) {
+        return resolve(imgs);
+      }
       const h = (video.videoHeight / video.videoWidth) * canvas.width;
       canvas.height = h;
       video.pause();
-      const imgList = spaces.map((it) => {
-        video.currentTime = it;
-        // console.log(video.videoWidth, video.videoHeight, h, it);
-        ctx.drawImage(video, 0, 0, width, h);
-        const imgData = canvas.toDataURL('image/jpeg');
-        const localImage = URL.createObjectURL(dataURLToBlob(imgData));
-        return localImage;
-      });
-      resolve(imgList);
+      video.currentTime = spaces[i++];
+      ctx.drawImage(video, 0, 0, width, h);
+      const imgData = canvas.toDataURL('image/jpeg');
+      const localImage = URL.createObjectURL(dataURLToBlob(imgData));
+      imgs.push(localImage);
+      return localImage;
     });
+
+    // video.addEventListener('loadeddata', () => {
+    //   const h = (video.videoHeight / video.videoWidth) * canvas.width;
+    //   canvas.height = h;
+    //   video.pause();
+    //   const imgList = spaces.map((it) => {
+    //     video.currentTime = it;
+    //     // console.log(video.videoWidth, video.videoHeight, h, it);
+    //     ctx.drawImage(video, 0, 0, width, h);
+    //     const imgData = canvas.toDataURL('image/jpeg');
+    //     const localImage = URL.createObjectURL(dataURLToBlob(imgData));
+    //     return localImage;
+    //   });
+    //   resolve(imgList);
+    // });
     video.addEventListener('error', () => {
       reject();
     });

@@ -12,19 +12,40 @@ function Indicator() {
   useEffect(() => {
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext('2d', 60) as CanvasRenderingContext2D;
+
+      const ratio = (window.devicePixelRatio || 1);
+
+      if (ratio > 1) {
+        // const height = defaultHeiht || this.height;
+        canvasRef.current.style.height = `${60}px`;
+        canvasRef.current.style.width = `${lines.length * 10 + 10 * 10}px`;
+        canvasRef.current.width *= ratio;
+        canvasRef.current.height = 60 * ratio;
+      }
+
       lines.forEach((line, i) => {
         const x = i * 10;
         const y = 0;
         const height = i % 5 === 0 ? 10 : 5;
         ctx.strokeStyle = '#cdd5de';
         ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x, y + height);
+        ctx.moveTo(x * ratio, y * ratio);
+        ctx.lineTo(x * ratio, (y + height) * ratio);
+        ctx.lineWidth *= ratio;
         ctx.stroke();
+        ctx.lineWidth /= ratio;
         if (i % 10 === 0 && i !== 0) {
           const timeStr = `${Math.floor((i * store.timerScale) / 1000)}s`;
           ctx.fillStyle = '#262e48';
-          ctx.fillText(timeStr, x, y + (height * 2));
+          ctx.font = ctx.font.replace(
+            /(\d+)(px|em|rem|pt)/g,
+            (w, m, u) => (m * ratio) + u,
+          );
+          ctx.fillText(timeStr, x * ratio, (y + (height * 2)) * ratio);
+          ctx.font = ctx.font.replace(
+            /(\d+)(px|em|rem|pt)/g,
+            (w, m, u) => (m / ratio) + u,
+          );
         }
       });
     }
@@ -33,13 +54,13 @@ function Indicator() {
   const lastX = useRef({
     x: 0,
     moving: false,
-    curX: 0
-  })
-  const onMouseDown =  (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    curX: 0,
+  });
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const x = e.clientX;
     lastX.current = { x, moving: true, curX: x };
-   
-    const { x: elx } = (e.target as HTMLCanvasElement).getBoundingClientRect();
+
+    const { x: elx } = (canvasRef.current as HTMLCanvasElement).getBoundingClientRect();
     const time = (x - elx) / store.timerScale;
     store.setCurrentTime(time * 1000);
     store.pause();
@@ -65,26 +86,20 @@ function Indicator() {
       store.pause();
       refresh();
     }
-    lastX.current = {x:0,moving: false, curX: 0}
+    lastX.current = { x: 0, moving: false, curX: 0 };
   };
 
   return (
-    <div className="indicator" style={{ width: lines.length * 10 + 10 * 10 }}
-    onMouseDown={onMouseDown}
-    onMouseMove={onMouseMove}
-    onMouseLeave={onMouseLeave}
-    onMouseUp={onMouseLeave}
+    <div
+      className="indicator"
+      style={{ width: lines.length * 10 + 10 * 10 }}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      onMouseUp={onMouseLeave}
     >
       <div className="indicator-point" style={{ left: store.currentTime / 10 }} />
       <canvas
-        // onClick={(e) => {
-        //   const x = e.clientX;
-        //   const { x: elx } = (e.target as HTMLCanvasElement).getBoundingClientRect();
-        //   const time = (x - elx) / store.timerScale;
-        //   store.setCurrentTime(time * 1000);
-        //   store.pause();
-        //   refresh();
-        // }}
         ref={canvasRef}
         width={lines.length * 10 + 10 * 10}
         height={60}

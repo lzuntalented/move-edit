@@ -22,15 +22,14 @@ function Fragment({ data, p }: {data: Item, p: DraggableProvided}) {
     const videoWidth = Math.floor(100 / videoData.length);
     const space = [];
     for (let i = 0; i < videoData.length; i += 1) {
-      space.push(i * Math.floor(imgLen / videoData.length));
+      space.push(i * Math.floor(imgLen / videoData.length) + 1);
     }
     const list = await getImageFormVideo(
       data.url,
-      videoWidth,
-      50,
+      videoWidth * 10,
+      50 * 10,
       space,
     );
-    console.log('space, list', space, list);
     setImgData(list);
   };
 
@@ -57,7 +56,7 @@ function Fragment({ data, p }: {data: Item, p: DraggableProvided}) {
     <div
       className="fragment"
       onClick={() => {
-        store.activeItemId = id;
+        store.setActvieItemId(id);
         refresh();
       }}
     >

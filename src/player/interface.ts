@@ -33,6 +33,7 @@ export interface PlayerControlProps {
 export interface VideoProps extends PlayerControlProps {
   playStart: number;
   url: string;
+  volume: number;
 }
 
 export interface TextProps extends PlayerControlProps {

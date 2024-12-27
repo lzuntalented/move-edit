@@ -28,5 +28,9 @@ module.exports = {
     'react/jsx-props-no-spreading': 0,
     'react/jsx-no-useless-fragment': 0,
     'no-unused-vars': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/no-noninteractive-element-interactions': 0,
+    'jsx-a11y/media-has-caption': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
   },
 };

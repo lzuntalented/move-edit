@@ -5,15 +5,18 @@ import { PlayStatus, VideoProps } from './interface';
 export default function Video(props: VideoProps) {
   const {
     url, playStatus, updateFlag,
-    start, playStart,
+    start, playStart, volume,
   } = props;
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     if (url) {
-      if (playStatus === PlayStatus.PAUSE) {
-        ref.current?.pause();
-      } else if (ref.current) {
-        ref.current.play();
+      if (ref?.current) {
+        ref.current.volume = volume;
+        if (playStatus === PlayStatus.PAUSE) {
+          ref.current?.pause();
+        } else if (ref.current) {
+          ref.current.play();
+        }
       }
     }
   }, [playStatus, url]);

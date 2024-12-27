@@ -1,9 +1,15 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const path = require('path');
 
 const isProd = process.env.NODE_ENV === 'production';
+const mainKey = `main-${+new Date()}`;
 module.exports = {
   entry: {
-    main: './src/index.tsx',
+    [mainKey]: './src/index.tsx',
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
   },
   module: {
     rules: [
@@ -30,12 +36,13 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js'],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({ // Also generate a test.html
       chunks: [],
       filename: 'index.html',
       template: './public/index.html',
       templateParameters: {
-        jsPath: 'main',
+        jsPath: mainKey,
       },
     }),
   ],

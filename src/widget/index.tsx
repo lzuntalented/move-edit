@@ -5,20 +5,36 @@ import { ItemType } from '../player/interface';
 import store from '../store';
 import Item from '../store/item';
 import './index.scss';
+import { isDev } from '../common/env';
 
-const picList = [
+const picList = isDev ? [
+  'http://localhost:9000/1.jpg',
+  'http://localhost:9000/2.jpg',
+  'http://localhost:9000/3.jpg',
+] : [
   'http://static.lzuntalented.cn/movie/1.jpg',
   'http://static.lzuntalented.cn/movie/2.jpg',
   'http://static.lzuntalented.cn/movie/3.jpg',
 ];
 
-const videoList = [
+const videoList = isDev ? [
+  'http://localhost:9000/1.mp4',
+  'http://localhost:9000/2.mp4',
+] : [
   'http://static.lzuntalented.cn/movie/1.mp4',
   'http://static.lzuntalented.cn/movie/2.mp4',
 ];
 
 const textList = [
   'https://js.xiudodo.com/colorful/previews/2.png?x-oss-process=image/crop,x_50,w_300,y_50,h_300/resize,w_180/interlace,1/sharpen,100/quality,q_98',
+];
+
+const audioList = isDev ? [
+  'http://localhost:9000/1.mp3',
+  'http://localhost:9000/2.mp3',
+] : [
+  'http://static.lzuntalented.cn/movie/1.mp3',
+  'http://static.lzuntalented.cn/movie/2.mp3',
 ];
 
 interface Props {
@@ -58,15 +74,13 @@ function Widget({ activeWidgetId }: Props) {
     store.updateFlag = Symbol(1);
     refresh();
   };
-  const onAddMusic = () => {
-    const url = 'http://127.0.0.1:5500/public/o.m4a';
+  const onAddMusic = (url: string) => {
     const layer = store.addLayer();
-    const item = new Item(100 * 1000, '音乐');
+    const item = new Item(10 * 1000, '音乐');
     item.url = url;
     item.type = ItemType.MUSIC;
     layer.addItem(item);
     store.activeItemId = item.id;
-    store.activeLayer = 0;
     refresh();
   };
 
@@ -97,7 +111,7 @@ function Widget({ activeWidgetId }: Props) {
               />
             </Col>
           ))}
-          {activeWidgetId === 2
+        {activeWidgetId === 2
           && videoList.map((it) => (
             <Col key={it} span={12}>
               <video
@@ -122,6 +136,35 @@ function Widget({ activeWidgetId }: Props) {
               />
             </Col>
           ))}
+        {activeWidgetId === 4
+            && audioList.map((it, i) => (
+              <Col key={it} span={24}>
+                <div
+                  onClick={() => {
+                    onAddMusic(it);
+                  }}
+                  style={{
+                    width: '100%',
+                    height: '40px',
+                    marginBottom: 12,
+                    backgroundColor: '#fff',
+                    lineHeight: '40px',
+                  }}
+                >
+                  曲目
+                  {i + 1}
+                  <audio
+                    controls={false}
+                    playsInline
+                    style={{
+                      width: '100%',
+                    }}
+                  >
+                    <source src={it} type="audio/mpeg" />
+                  </audio>
+                </div>
+              </Col>
+            ))}
       </Row>
     </div>
   );

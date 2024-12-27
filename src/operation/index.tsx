@@ -115,6 +115,7 @@ function Operation({ onWidgetClick, activeWidgetId }: Props) {
       {
         menus.map((it) => (
           <div
+            key={it.title}
             className={`menu-item ${it.key === activeWidgetId ? 'menu-item-active' : ''}`}
             onClick={() => {
               onWidgetClick(it.key);
@@ -125,15 +126,15 @@ function Operation({ onWidgetClick, activeWidgetId }: Props) {
           </div>
         ))
       }
-      <div className="menu-item" onClick={onAddPicture}>
+      {/* <div className="menu-item" onClick={onAddPicture}>
         <LaptopOutlined />
         图片
       </div>
       <div className="menu-item" onClick={onAddVideo}>视频</div>
       <div className="menu-item" onClick={onAddText}>文字</div>
       <div className="menu-item" onClick={onAddMusic}>音乐</div>
-      <div className="menu-item" onClick={onAddLayer}>轨道</div>
-      <div className="menu-item" onClick={onChange}>
+      <div className="menu-item" onClick={onAddLayer}>轨道</div> */}
+      {/* <div className="menu-item" onClick={onChange}>
         {
             store.playStatus === PlayStatus.PLAYING ? '暂停' : '播放'
           }
@@ -144,7 +145,7 @@ function Operation({ onWidgetClick, activeWidgetId }: Props) {
         {
             formatTime(total)
           }
-      </div>
+      </div> */}
     </div>
   );
 }
