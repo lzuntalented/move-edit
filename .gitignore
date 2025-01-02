@@ -2,3 +2,4 @@ node_modules
 public
 .vscode
 dist
+.DS_Store

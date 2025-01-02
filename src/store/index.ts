@@ -26,8 +26,8 @@ export class Store {
   /** 播放时间器 */
   timerHandler: Timer;
 
-  /** 时间缩放 1000 = 1s */
-  timerScale = 100;
+  /** 时间缩放 1s使用刻度标识数量 */
+  timerScale = 10;
 
   constructor() {
     this.timerHandler = new Timer();

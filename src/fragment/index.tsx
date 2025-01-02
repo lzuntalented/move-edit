@@ -8,10 +8,12 @@ import Item from '../store/item';
 import { getImageFormVideo } from '../utils';
 
 import './index.scss';
+import { SCALE_DOM_SPACE } from '../common/config';
 
 function Fragment({ data, p }: {data: Item, p: DraggableProvided}) {
   const { start, duration, id } = data;
-  const len = duration / 10;
+  // const timerScale = store.timerScale * 1000;
+  const len = duration / 1000 * store.timerScale * SCALE_DOM_SPACE;
   const { refresh } = useContext(Context);
   const imgLen = Math.ceil(duration / 1000);
   // const imgData = new Array(imgLen).fill(data.url);
@@ -65,13 +67,12 @@ function Fragment({ data, p }: {data: Item, p: DraggableProvided}) {
         ref={p.innerRef}
         {...(p.draggableProps)}
         {...(p.dragHandleProps)}
+        style={{
+          width: len,
+          height: 50,
+        }}
       >
-        <div
-          style={{
-            width: len,
-            height: 50,
-          }}
-        >
+        <div>
           {
             imgData.map((it, i) => (
               <div

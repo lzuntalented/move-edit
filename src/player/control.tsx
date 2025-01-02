@@ -57,7 +57,9 @@ export default function PlayControl(props: PlayerControlProps) {
   if (currentItem.length === 0) return <div />;
   const chidlren = currentItem.map((it) => {
     const Comp = itemRenderMap[it.type];
-    return <Comp {...props} {...it} key={it.id} />;
+    return <div className='player-item'>
+      <Comp {...props} {...it} key={it.id} />
+    </div>;
   });
 
   if (currentItem[0].transition

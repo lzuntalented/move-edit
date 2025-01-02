@@ -3,6 +3,7 @@ import { SplitCellsOutlined } from '@ant-design/icons';
 import './index.scss';
 import {
   Button, Col, message, Row,
+  Slider,
 } from 'antd';
 import moment from 'moment';
 import { PlayStatus } from '../player/interface';
@@ -56,6 +57,17 @@ function TrackOperate() {
               <Button icon={<SplitCellsOutlined />} size="small" onClick={onSplit}>
                 分割
               </Button>
+            </Col>
+            <Col>
+            <Slider min={0} max={20}
+            value={store.timerScale}
+            style={{width: 100}} 
+            step={2}
+            onChange={v => {
+              store.timerScale = v;
+              refresh()
+            }}
+            />
             </Col>
           </Row>
         </Col>

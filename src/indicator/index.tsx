@@ -3,11 +3,12 @@ import Context from '../context';
 import store from '../store';
 import { formatTime, setupCanvas } from '../utils';
 import './index.scss';
+import { SCALE_DOM_SPACE } from '../common/config';
 
 function Indicator() {
   const { refresh } = useContext(Context);
   const total = store.getTotalTime();
-  const lines = new Array(Math.ceil(total / store.timerScale)).fill(1);
+  const lines = new Array(Math.ceil(total / 1000 * store.timerScale) + 10).fill(1);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     if (canvasRef.current) {
@@ -18,13 +19,13 @@ function Indicator() {
       if (ratio > 1) {
         // const height = defaultHeiht || this.height;
         canvasRef.current.style.height = `${60}px`;
-        canvasRef.current.style.width = `${lines.length * 10 + 10 * 10}px`;
+        canvasRef.current.style.width = `${lines.length * SCALE_DOM_SPACE }px`;
         canvasRef.current.width *= ratio;
         canvasRef.current.height = 60 * ratio;
       }
 
       lines.forEach((line, i) => {
-        const x = i * 10;
+        const x = i * SCALE_DOM_SPACE;
         const y = 0;
         const height = i % 5 === 0 ? 10 : 5;
         ctx.strokeStyle = '#cdd5de';
@@ -35,7 +36,7 @@ function Indicator() {
         ctx.stroke();
         ctx.lineWidth /= ratio;
         if (i % 10 === 0 && i !== 0) {
-          const timeStr = `${Math.floor((i * store.timerScale) / 1000)}s`;
+          const timeStr = `${Math.floor((i / store.timerScale * 10) ) / 10}s`;
           ctx.fillStyle = '#262e48';
           ctx.font = ctx.font.replace(
             /(\d+)(px|em|rem|pt)/g,
@@ -49,7 +50,7 @@ function Indicator() {
         }
       });
     }
-  }, [total]);
+  }, [total, store.timerScale]);
 
   const lastX = useRef({
     x: 0,
@@ -61,8 +62,8 @@ function Indicator() {
     lastX.current = { x, moving: true, curX: x };
 
     const { x: elx } = (canvasRef.current as HTMLCanvasElement).getBoundingClientRect();
-    const time = (x - elx) / store.timerScale;
-    store.setCurrentTime(time * 1000);
+    const time = (x - elx) / SCALE_DOM_SPACE * (1000 / store.timerScale);
+    store.setCurrentTime(time);
     store.pause();
     refresh();
   };
@@ -70,9 +71,9 @@ function Indicator() {
   const onMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (lastX.current.moving) {
       const x = e.clientX || lastX.current.curX;
-      const time = (x - lastX.current.x) / store.timerScale;
+      const time = (x - lastX.current.x) / SCALE_DOM_SPACE * (1000 / store.timerScale);
       lastX.current.x = x;
-      store.setCurrentTime(store.currentTime + time * 1000);
+      store.setCurrentTime(store.currentTime + time );
       store.pause();
       refresh();
     }
@@ -81,8 +82,8 @@ function Indicator() {
   const onMouseLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (lastX.current.moving) {
       const x = e.clientX || lastX.current.curX;
-      const time = (x - lastX.current.x) / store.timerScale;
-      store.setCurrentTime(store.currentTime + time * 1000);
+      const time = (x - lastX.current.x) / SCALE_DOM_SPACE * (1000 / store.timerScale);
+      store.setCurrentTime(store.currentTime + time );
       store.pause();
       refresh();
     }
@@ -98,7 +99,7 @@ function Indicator() {
       onMouseLeave={onMouseLeave}
       onMouseUp={onMouseLeave}
     >
-      <div className="indicator-point" style={{ left: store.currentTime / 10 }} />
+      <div className="indicator-point" style={{ left: store.currentTime / 1000 * store.timerScale * SCALE_DOM_SPACE }} />
       <canvas
         ref={canvasRef}
         width={lines.length * 10 + 10 * 10}

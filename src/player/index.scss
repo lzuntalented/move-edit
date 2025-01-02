@@ -3,13 +3,14 @@
   display: flex;
   justify-content: center;
   background-color: #d9dee4;
+  padding: 64px;
 }
 .player-container {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: 64px;
+  bottom: 64px;
+  left: 64px;
+  right: 64px;
   margin: auto;
   overflow: hidden;
   .player-item {
@@ -18,5 +19,6 @@
     top: 0;
     bottom: 0;
     right: 0;
+    margin: auto;
   }
 }
