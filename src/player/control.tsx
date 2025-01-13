@@ -11,6 +11,7 @@ import Text from './text';
 import Music from './music';
 import store from '../store';
 import Animation from './animation';
+import Move from './move';
 
 const itemRenderMap = {
   [ItemType.VIDEO]: Video,
@@ -57,9 +58,11 @@ export default function PlayControl(props: PlayerControlProps) {
   if (currentItem.length === 0) return <div />;
   const chidlren = currentItem.map((it) => {
     const Comp = itemRenderMap[it.type];
-    return <div className='player-item'>
-      <Comp {...props} {...it} key={it.id} />
-    </div>;
+    return (<Move key={it.id}>
+      <div className='player-item'>
+      <Comp {...props} {...it} />
+    </div>
+    </Move>);
   });
 
   if (currentItem[0].transition

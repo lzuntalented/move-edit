@@ -59,7 +59,6 @@ export default function Player(props: PlayerProps) {
               list={item.items}
               currentTime={store.currentTime}
             />
-
           </div>
         ))
       }

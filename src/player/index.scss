@@ -22,3 +22,117 @@
     margin: auto;
   }
 }
+.area-move {
+  position: fixed;
+  display: none;
+
+  .ctrl-container {
+    margin: 0 0;
+    padding: 0 0;
+    list-style: none;
+    pointer-events: none;
+
+    .line {
+      position: absolute;
+      background-color: #44cb83;
+      height: 1px;
+      width: 1px;
+      &.l {
+        top: 0;
+        left: 0;
+        height: 100%;
+      }
+      &.t {
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+      &.r {
+        top: 0;
+        right: 0;
+        height: 100%;
+      }
+      &.b {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+      }
+      &.link-rotate {
+        width: 1px;
+        height: 18px;
+        left: 50%;
+        top: -24px;
+        transform: translateX(-50%);
+        background-color: #44cb83;
+      }
+    }
+    .point {
+      position: absolute;
+      background-color: #FFFFFF;
+      border-radius: 50%;
+      border: 1px solid #44cb83;
+      width: 12px;
+      height: 12px;
+      pointer-events: all;
+
+      &.lc {
+        left: -6px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: ew-resize;
+      }
+      &.rc {
+        right: -6px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: ew-resize;
+      }
+      &.tc {
+        left: 50%;
+        top: -6px;
+        transform: translateX(-50%);
+        cursor: ns-resize;
+      }
+      &.bc {
+        left: 50%;
+        bottom: -6px;
+        transform: translateX(-50%);
+        cursor: ns-resize;
+      }
+      &.lt {
+        left: -6px;
+        top: -6px;
+        cursor: nwse-resize;
+      }
+      &.rt {
+        right: -6px;
+        top: -6px;
+        cursor: nesw-resize;
+      }
+      &.lb {
+        left: -6px;
+        bottom: -6px;
+        cursor: nesw-resize;
+      }
+      &.rb {
+        right: -6px;
+        bottom: -6px;
+        cursor: nwse-resize;
+      }
+      &.rotate {
+        left: 50%;
+        top: -30px;
+        transform: translateX(-50%);
+        border-color: #44cb83;
+        background-color: #44cb83;
+        cursor: url(//www.lzuntalented.cn/img/mouserotate.png) 10 10,default;
+      }
+    }
+  }
+  &-point {
+
+  }
+  &-line {
+
+  }
+}

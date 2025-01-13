@@ -15,12 +15,13 @@ function Indicator() {
       const ctx = canvasRef.current.getContext('2d', 60) as CanvasRenderingContext2D;
 
       const ratio = (window.devicePixelRatio || 1);
+      const width = lines.length * SCALE_DOM_SPACE
 
       if (ratio > 1) {
         // const height = defaultHeiht || this.height;
         canvasRef.current.style.height = `${60}px`;
-        canvasRef.current.style.width = `${lines.length * SCALE_DOM_SPACE }px`;
-        canvasRef.current.width *= ratio;
+        canvasRef.current.style.width = `${width }px`;
+        canvasRef.current.width = width * ratio;
         canvasRef.current.height = 60 * ratio;
       }
 
@@ -58,6 +59,7 @@ function Indicator() {
     curX: 0,
   });
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation()
     const x = e.clientX;
     lastX.current = { x, moving: true, curX: x };
 
